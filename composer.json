@@ -2,7 +2,7 @@
     "name": "antonella-framework/antonella",
     "description": "Core files for Antonella Framework",
     "type": "module",
-    "license": "GNU",
+    "license": "MIT",
     "version": "1.0",
     "autoload": {
         "psr-4": {
