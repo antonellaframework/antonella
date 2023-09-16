@@ -1,10 +1,10 @@
 <?php
 
 namespace Antonella\Commands;
- 
+
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
- 
+
 class MakeupCommand extends BaseCommand
 {
     
@@ -20,7 +20,7 @@ class MakeupCommand extends BaseCommand
         'composer.lock',
         'package-lock.json',
         'antonella',
-		'console',
+        'console',
         'readme.md',
         'bitbucket-pipelines.yml',
         'CHANGELOG.md',
@@ -39,7 +39,7 @@ class MakeupCommand extends BaseCommand
         'webpack.mix.js',
         'webpack.config.js',
         'dev'.DIRECTORY_SEPARATOR.'Classes'.DIRECTORY_SEPARATOR.'StubGenerator.php',
-		'StubGenerator.php'
+        'StubGenerator.php'
     ];
     
     protected $dirs_to_exclude = [
@@ -50,30 +50,34 @@ class MakeupCommand extends BaseCommand
         'wp-test',
         'resources'.DIRECTORY_SEPARATOR.'css',
         'resources'.DIRECTORY_SEPARATOR.'js',
-		'cypress',
+        'cypress',
         'node_modules',
         'vendor'.DIRECTORY_SEPARATOR.'vlucas',
-        'vendor'.DIRECTORY_SEPARATOR.'symfony'.DIRECTORY_SEPARATOR.'console',		
+        'vendor'.DIRECTORY_SEPARATOR.'symfony'.DIRECTORY_SEPARATOR.'console',
         'vendor'.DIRECTORY_SEPARATOR.'symfony'.DIRECTORY_SEPARATOR.'var-dumper',
-	];
-	
-	protected $dirs_to_exclude_win=[
+        'vendor'.DIRECTORY_SEPARATOR.'squizlabs'.DIRECTORY_SEPARATOR.'php_codesniffer',
+        'vendor'.DIRECTORY_SEPARATOR.'phpunit'.DIRECTORY_SEPARATOR.'phpunit',
+    ];
+    
+    protected $dirs_to_exclude_win=[
         '.',
         '..',
         '.git',
         '.github',
         'dev',
-		'docs',
+        'docs',
         'wp-test',
         'resources'.DIRECTORY_SEPARATOR.'css',
         'resources'.DIRECTORY_SEPARATOR.'js',
-		'cypress',
+        'cypress',
         'node_modules',
         'vendor'.DIRECTORY_SEPARATOR.'vlucas',
-        'vendor'.DIRECTORY_SEPARATOR.'symfony'.DIRECTORY_SEPARATOR.'console',		
+        'vendor'.DIRECTORY_SEPARATOR.'symfony'.DIRECTORY_SEPARATOR.'console',
         'vendor'.DIRECTORY_SEPARATOR.'symfony'.DIRECTORY_SEPARATOR.'var-dumper',
+        'vendor'.DIRECTORY_SEPARATOR.'squizlabs'.DIRECTORY_SEPARATOR.'php_codesniffer',
+        'vendor'.DIRECTORY_SEPARATOR.'phpunit'.DIRECTORY_SEPARATOR.'phpunit',
     ];
-	
+    
     protected $dir;
 
 
@@ -86,23 +90,22 @@ class MakeupCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->dir = $this->getDirBase();	// recupera el directorio base
-		$output->writeln("<comment>Antonella is packing the plugin</comment>");
-        		
-		$SO=strtoupper(substr(PHP_OS, 0, 3));
+        $output->writeln("<comment>Antonella is packing the plugin</comment>");
+                
+        $SO=strtoupper(substr(PHP_OS, 0, 3));
         if($SO==='WIN') {
-			$this->makeup_win();
+            $this->makeup_win();
+        } else {
+            $this->makeup();
         }
-        else {
-			$this->makeup();
-		}
-		
+        
         $output->writeln("<info>============================</info>");
         $output->writeln("<info>The plugin's zip file is OK!</info>");
         $output->writeln("<info>============================</info>");
         
-	}
+    }
    
-    private function makeup() 
+    private function makeup()
     {
     
         file_exists($this->dir.'/'.basename($this->dir).'.zip') ? unlink($this->dir.'/'.basename($this->dir).'.zip') : false;
@@ -117,7 +120,7 @@ class MakeupCommand extends BaseCommand
         }
         
         $dirToExclude = $this->dirs_to_exclude;
-        $files = new \RecursiveIteratorIterator( 
+        $files = new \RecursiveIteratorIterator(
             new \RecursiveCallbackFilterIterator(
                 new \RecursiveDirectoryIterator(
                     $this->dir,
@@ -136,7 +139,7 @@ class MakeupCommand extends BaseCommand
             if (!$file->isDir() && !in_array($file->getFilename(), $filesToExclude)) {
                 $filePath = $file->getRealPath();
                 $relativePath = substr($filePath, strlen($dirName) + 1);
-                $zip->addFile($filePath, $relativePath);			
+                $zip->addFile($filePath, $relativePath);
             }
         }
 
@@ -153,70 +156,70 @@ class MakeupCommand extends BaseCommand
         $zip->close();
     }
 
-	private function makeup_win()
+    private function makeup_win()
     {
 
         file_exists($this->dir.'/'.basename($this->dir).'.zip')?unlink($this->dir.'/'.basename($this->dir).'.zip'):false;
-        $zip = new \ZipArchive(); 
-        $zip->open(basename($this->dir).'.zip', \ZipArchive::CREATE); 
+        $zip = new \ZipArchive();
+        $zip->open(basename($this->dir).'.zip', \ZipArchive::CREATE);
 
-        $dirName =$this->dir; 
+        $dirName =$this->dir;
 
-        if (!is_dir($dirName)) { 
-            throw new \Exception('Directory ' . $dirName . ' does not exist'); 
-        } 
-
-        $dirName = realpath($dirName);
-		if (substr($dirName, -1) != '/') { 
-            $dirName.= '/'; 
+        if (!is_dir($dirName)) {
+            throw new \Exception('Directory ' . $dirName . ' does not exist');
         }
 
-		/* 
-        * NOTE BY danbrown AT php DOT net: A good method of making 
-        * portable code in this case would be usage of the PHP constant 
-        * DIRECTORY_SEPARATOR in place of the '/' (forward slash) above. 
-        */ 
+        $dirName = realpath($dirName);
+        if (substr($dirName, -1) != '/') {
+            $dirName.= '/';
+        }
 
-        $dirStack = array($dirName); 
-        //Find the index where the last dir starts 
-        $cutFrom = strrpos(substr($dirName, 0, -1), '/')+strlen($this->dir)+1; 
+        /*
+        * NOTE BY danbrown AT php DOT net: A good method of making
+        * portable code in this case would be usage of the PHP constant
+        * DIRECTORY_SEPARATOR in place of the '/' (forward slash) above.
+        */
 
-        while (!empty($dirStack)) { 
-            $currentDir = array_pop($dirStack); 
-            $filesToAdd = array(); 
+        $dirStack = array($dirName);
+        //Find the index where the last dir starts
+        $cutFrom = strrpos(substr($dirName, 0, -1), '/')+strlen($this->dir)+1;
 
-            $dir = dir($currentDir); 
+        while (!empty($dirStack)) {
+            $currentDir = array_pop($dirStack);
+            $filesToAdd = array();
+
+            $dir = dir($currentDir);
            
-            while (false !== ($node = $dir->read())) { 
+            while (false !== ($node = $dir->read())) {
              
-				if(in_array($node,$this->files_to_exclude)||in_array($node,$this->dirs_to_exclude_win)){
-                    continue; 
-                } 
-                if (is_dir($currentDir . $node)) { 
+                if(in_array($node, $this->files_to_exclude)||in_array($node, $this->dirs_to_exclude_win)) {
+                    continue;
+                }
+                if (is_dir($currentDir . $node)) {
                    
-                    array_push($dirStack, $currentDir . $node . '/'); 
-                } 
-                if (is_file($currentDir . $node)) { 
-                    $filesToAdd[] = $node; 
-                } 
-            } 
+                    array_push($dirStack, $currentDir . $node . '/');
+                }
+                if (is_file($currentDir . $node)) {
+                    $filesToAdd[] = $node;
+                }
+            }
 
             $localDir = substr($currentDir, $cutFrom);
             
            
-            $zip->addEmptyDir($localDir); 
-            foreach ($filesToAdd as $file) { 
+            $zip->addEmptyDir($localDir);
+            foreach ($filesToAdd as $file) {
                 $zip->addFile($currentDir . $file, $localDir . $file);
-               // echo("Added $localDir$file into plugin  \n"); 
-            } 
+                // echo("Added $localDir$file into plugin  \n");
+            }
         }
 
-		// updated 28/4/2021 by david
-		for ($i = 0; $i < $zip->numFiles; ++$i) {
+        // updated 28/4/2021 by david
+        for ($i = 0; $i < $zip->numFiles; ++$i) {
             $entry_info = $zip->statIndex($i);
             foreach ($this->dirs_to_exclude as $dirExclude) {
-				$dirExclude = str_replace('\\', '/', $dirExclude);
-				$pos = strpos($entry_info['name'], $dirExclude);
+                $dirExclude = str_replace('\\', '/', $dirExclude);
+                $pos = strpos($entry_info['name'], $dirExclude);
                 if ($pos !== false) {
                     $zip->deleteIndex($i);
                 }
