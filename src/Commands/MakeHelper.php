@@ -55,7 +55,8 @@ class MakeHelper extends BaseCommand
         
         $StubGenerator = 'Antonella\Classes\StubGenerator';
         $stub = new $StubGenerator(
-            $this->getPath('stubs', 'helper'),			// 'dev/stubs/helper.stub',
+            'vendor/antonella-framework/antonella/src/Stubs/helper.stub',
+            //$this->getPath('stubs', 'helper'),			// 'dev/stubs/helper.stub',
             $target
         );
 

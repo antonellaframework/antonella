@@ -58,14 +58,8 @@ class MakeupCommand extends BaseCommand
         'vendor'.DIRECTORY_SEPARATOR.'vlucas',
         'vendor'.DIRECTORY_SEPARATOR.'symfony'.DIRECTORY_SEPARATOR.'console',
         'vendor'.DIRECTORY_SEPARATOR.'symfony'.DIRECTORY_SEPARATOR.'var-dumper',
-        'vendor'.DIRECTORY_SEPARATOR.'squizlabs',
-        'vendor'.DIRECTORY_SEPARATOR.'phpunit',
-        'vendor'.DIRECTORY_SEPARATOR.'phar-io',
-        'vendor'.DIRECTORY_SEPARATOR.'sebastian',
-        'vendor'.DIRECTORY_SEPARATOR.'myclabs',
-        'vendor'.DIRECTORY_SEPARATOR.'phpoption',
-        'vendor'.DIRECTORY_SEPARATOR.'nikic',
-        'vendor'.DIRECTORY_SEPARATOR.'test',
+        'vendor'.DIRECTORY_SEPARATOR.'squizlabs'.DIRECTORY_SEPARATOR.'php_codesniffer',
+        'vendor'.DIRECTORY_SEPARATOR.'phpunit'.DIRECTORY_SEPARATOR.'phpunit',
     ];
     
     protected $dirs_to_exclude_win=[
@@ -83,14 +77,8 @@ class MakeupCommand extends BaseCommand
         'vendor'.DIRECTORY_SEPARATOR.'vlucas',
         'vendor'.DIRECTORY_SEPARATOR.'symfony'.DIRECTORY_SEPARATOR.'console',
         'vendor'.DIRECTORY_SEPARATOR.'symfony'.DIRECTORY_SEPARATOR.'var-dumper',
-        'vendor'.DIRECTORY_SEPARATOR.'squizlabs',
-        'vendor'.DIRECTORY_SEPARATOR.'phpunit',
-        'vendor'.DIRECTORY_SEPARATOR.'phar-io',
-        'vendor'.DIRECTORY_SEPARATOR.'sebastian',
-        'vendor'.DIRECTORY_SEPARATOR.'myclabs',
-        'vendor'.DIRECTORY_SEPARATOR.'phpoption',
-        'vendor'.DIRECTORY_SEPARATOR.'nikic',
-        'vendor'.DIRECTORY_SEPARATOR.'test',
+        'vendor'.DIRECTORY_SEPARATOR.'squizlabs'.DIRECTORY_SEPARATOR.'php_codesniffer',
+        'vendor'.DIRECTORY_SEPARATOR.'phpunit'.DIRECTORY_SEPARATOR.'phpunit',
     ];
     
     protected $dir;

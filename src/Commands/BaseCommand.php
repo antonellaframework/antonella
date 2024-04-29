@@ -40,7 +40,7 @@ class BaseCommand extends \Symfony\Component\Console\Command\Command {
         $dir = strtolower($dir);
 
         switch ($dir) {
-            case 'stubs':
+            case 'Stubs':
                 $ext = '.stub';
                 break;
             default:
@@ -58,10 +58,10 @@ class BaseCommand extends \Symfony\Component\Console\Command\Command {
       * devuelve el namespace (principal) desde composer.json 
     **/
 	public function getNamespace() {
-		$composer = file_get_contents($this->dir.'/composer.json');
+		$composer = file_get_contents('composer.json');
         $composer_json = json_decode($composer);
         $psr = $composer_json->autoload->{'psr-4'};
-        $namespace = substr(key($psr), 0, -1);
+        $namespace = substr(key((array)$psr), 0, -1);
 
         return $namespace;
 	}

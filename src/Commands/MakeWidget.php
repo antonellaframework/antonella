@@ -64,7 +64,8 @@ class MakeWidget extends BaseCommand {
         // Crea una clase a partir de una fichero plantilla (dev/stubs/controller.stub)
         $StubGenerator = 'Antonella\Classes\StubGenerator';
         $stub = new $StubGenerator(
-            $this->getPath('stubs', 'widget'),	//__DIR__ . '/dev/stubs/widget.stub',
+            'vendor/antonella-framework/antonella/src/Stubs/widget.stub',
+          //  $this->getPath('stubs', 'widget'),	//__DIR__ . '/dev/stubs/widget.stub',
             $target
         );
 

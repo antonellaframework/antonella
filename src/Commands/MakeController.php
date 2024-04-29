@@ -59,9 +59,10 @@ class MakeController extends BaseCommand {
         }
 		
         // Crea una clase a partir de una fichero plantilla (dev/stubs/controller.stub)
-        $StubGenerator = 'Antonella\Classes\StubGenerator';
+        $StubGenerator = 'Antonella\classes\StubGenerator';
         $stub = new $StubGenerator(
-            $this->getPath('stubs', 'controller'),				// 'dev/stubs/controller.stub',
+            'vendor/antonella-framework/antonella/src/Stubs/controller.stub',
+          //  $this->getPath('stubs', 'controller'),				// 'dev/stubs/controller.stub',
             $target
         );
 
